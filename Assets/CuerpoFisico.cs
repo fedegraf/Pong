@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class CuerpoFisico : MonoBehaviour
 {
-    public float masa;
+    public float mass;
     
-    public Vector3 velocidad;
-    Vector3 aceleracion;
+    public Vector3 velocity;
+    Vector3 acceleration;
 
-    public void ApplyForce(Vector3 fuerza)
+    public void ApplyForce(Vector3 force)
     {
-        aceleracion += fuerza / masa;
+        acceleration += force / mass;
     }
 
-    public void PasoDeFisica()
+    public void PhysicsStep()
     {
-        velocidad += aceleracion * Time.deltaTime;
-        transform.position += velocidad * Time.deltaTime + 0.5f * aceleracion * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
-        aceleracion = Vector3.zero;
+        velocity += acceleration * Time.deltaTime;
+        transform.position += velocity * Time.deltaTime + 0.5f * acceleration * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
+        acceleration = Vector3.zero;
     }
 }

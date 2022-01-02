@@ -5,89 +5,95 @@ using UnityEngine;
 public class MetodoEuler : MonoBehaviour
 {
     [SerializeField] float speed = 4f;
-    Vector3 velocidad;
-    Vector3 aceleracion;
+    Vector3 velocity;
+    Vector3 acceleration;
     float radioPowerUp = 0.5f;
-    public PaletaScript paletaDerecha;
-    public PaletaScript paletaIzquierda;
+    public PaletaScript playerOne;
+    public PaletaScript playerTwo;
     public Transform powerUp;
-    float paredHorizontal = 5f;
-    float paredVertical = 8.9f;
+    float horizontalWall = 5f;
+    float verticalWall = 8.9f;
     float radio = 0.25f;
     bool unpaused;
     [SerializeField] CanvasManager canvas;
 
     bool gravityOn;
 
-    Vector3 gravedad = new Vector3(0, -9.8f, 0);
+    Vector3 gravity = new Vector3(0, -9.8f, 0);
 
-    int puntajeIzq = 0;
-    int puntajeDer = 0;
+    int playerOneScore = 0;
+    int playerTwoScore = 0;
     void Start()
     {
-        if (!CanvasManager.paused) velocidad = new Vector3(speed, speed, 0f);
-        else if (CanvasManager.paused) velocidad = Vector3.zero;
+        if (!CanvasManager.paused) velocity = new Vector3(speed, speed, 0f);
+        else if (CanvasManager.paused) velocity = Vector3.zero;
         gravityOn = false;
         unpaused = false;
     }
 
     void Update()
     {
-        if (gravityOn && !CanvasManager.paused) velocidad += gravedad * Time.deltaTime;
-        else if (!gravityOn && !CanvasManager.paused && !unpaused)    // Si no hay gravedad y el juego está en pausa, se le da la velocidad a la bola
+        if (gravityOn && !CanvasManager.paused) velocity += gravity * Time.deltaTime;
+        // If there is no gravity and the game is unpaused, velocity is given to the ball
+        else if (!gravityOn && !CanvasManager.paused && !unpaused)
         {
             unpaused = true;
-            velocidad = new Vector3(speed, speed, 0f);
+            velocity = new Vector3(speed, speed, 0f);
         }
 
 
         if (CanvasManager.paused)
         {
-            velocidad = Vector3.zero;
+            velocity = Vector3.zero;
             unpaused = false;
         }
+        
+        // The movement of the ball is made using its velocity
+        transform.position += velocity * Time.deltaTime;
 
-
-        transform.position += velocidad * Time.deltaTime;       // Se hace el movimiento de la bola usando su velocidad
-
-        if(transform.position.y >= paredHorizontal - radio)     // Si tocamos el techo, hacemos que la velocidad sea hacia abajo en el eje Y
+        // If we touch the ceiling, we make the velocity down the Y axis
+        if(transform.position.y >= horizontalWall - radio)
         {
-            velocidad.y = -Mathf.Abs(velocidad.y);
+            velocity.y = -Mathf.Abs(velocity.y);
         }
-        if(transform.position.y <= -paredHorizontal + radio)
+        if(transform.position.y <= -horizontalWall + radio)
         {
-            velocidad.y = Mathf.Abs(velocidad.y);               // Si tocamos el piso, hacemos que la velocidad sea hacia arriba en el eje Y
+            // If we touch the ground, we make the velocity be up on the Y axis
+            velocity.y = Mathf.Abs(velocity.y);
         }
-        if(transform.position.x >= paredVertical - radio)       // Si tocamos la pared de la derecha...
+        if(transform.position.x >= verticalWall - radio)
         {
-            float paletaY = paletaDerecha.transform.position.y;
-            if (transform.position.y <= paletaY + paletaDerecha.altura && transform.position.y >= paletaY - paletaDerecha.altura)  // nos fijamos si la pelota está tocando a la paleta usando sus alturas
+            float paletaY = playerOne.transform.position.y;
+            // we check if the ball is touching the paddle using its heights
+            if (transform.position.y <= paletaY + playerOne.height && transform.position.y >= paletaY - playerOne.height)
             {
-                velocidad.x = -Mathf.Abs(velocidad.x);    //si está tocando, convertimos la velocidad x en negativa haciendo que vaya a la izquierda, si no lo hace, punto para la izquierda.
+                // if it's touching, we convert velocity x to negative making it go to the left, if it doesn't, point to the player
+                velocity.x = -Mathf.Abs(velocity.x);
             }
             else                                          
             {
                 transform.position = Vector3.zero;
-                puntajeIzq++;
-                canvas.puntajeIzq.text = puntajeIzq.ToString();
+                playerOneScore++;
+                canvas.playerOneScore.text = playerOneScore.ToString();
                 CanvasManager.paused = true;
-                Debug.Log($"Puntaje: Izquierda {puntajeIzq} - {puntajeDer} Derecha");
+                Debug.Log($"Puntaje: Izquierda {playerOneScore} - {playerTwoScore} Derecha");
             }
         }
-        if (transform.position.x <= -paredVertical + radio)           // Lo mismo para la pared izquierda ahora
+        // same for the left wall
+        if (transform.position.x <= -verticalWall + radio)
         {
-            float paletaY = paletaIzquierda.transform.position.y;
-            if (transform.position.y <= paletaY + paletaDerecha.altura && transform.position.y >= paletaY - paletaDerecha.altura)
+            float paletaY = playerTwo.transform.position.y;
+            if (transform.position.y <= paletaY + playerOne.height && transform.position.y >= paletaY - playerOne.height)
             {
-                velocidad.x = Mathf.Abs(velocidad.x);
+                velocity.x = Mathf.Abs(velocity.x);
             }
             else
             {
                 transform.position = Vector3.zero;
-                puntajeDer++;
-                canvas.puntajeDer.text = puntajeDer.ToString();
+                playerTwoScore++;
+                canvas.playerTwoScore.text = playerTwoScore.ToString();
                 CanvasManager.paused = true;
-                Debug.Log($"Puntaje: Izquierda {puntajeIzq} - {puntajeDer} Derecha");
+                Debug.Log($"Puntaje: Izquierda {playerOneScore} - {playerTwoScore} Derecha");
             }
         }
 
@@ -97,7 +103,7 @@ public class MetodoEuler : MonoBehaviour
             if(Vector2.SqrMagnitude(transform.position - powerUp.position) < sumaDeRadios * sumaDeRadios)
             {
                 Destroy(powerUp.gameObject);
-                //accion del powerup
+                // powerup
             }
         }
 

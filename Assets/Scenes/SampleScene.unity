@@ -634,15 +634,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee01953c849d558458a2c1015eb117df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masa: 1
-  velocidad: {x: 0, y: 0, z: 0}
-  velocidadMaxima: 5
-  fuerzaMaxima: 10
-  velocidadDeseada: 0
-  aceleracionTeclas: 10
-  fuerzaTeclas: 0
+  mass: 15
+  velocity: {x: 0, y: 0, z: 0}
+  maxVelocity: 30
+  maxForce: 50
+  wantedVelocity: 30
+  inputAcceleration: 0
+  inputForce: 0
   speed: 5
-  altura: 1.5
+  height: 1.5
   keyUp: 273
   keyDown: 274
 --- !u!212 &604040888
@@ -721,8 +721,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cbc3e65c738b14a8b8e37371003dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masa: 2
-  velocidad: {x: 0, y: 0, z: 0}
+  mass: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &854022795
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,8 +818,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  paletaDerecha: {fileID: 604040887}
-  paletaIzquierda: {fileID: 1187302760}
+  playerOne: {fileID: 604040887}
+  playerTwo: {fileID: 1187302760}
   powerUp: {fileID: 0}
   canvas: {fileID: 1171377641}
 --- !u!1 &1171377636
@@ -936,8 +936,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dd666c952b56943840e3aec15f9c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puntajeIzq: {fileID: 488527214}
-  puntajeDer: {fileID: 147864003}
+  playerOneScore: {fileID: 0}
+  playerTwoScore: {fileID: 0}
   pauseCanvas: {fileID: 374729429}
 --- !u!1 &1187302759
 GameObject:
@@ -970,15 +970,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee01953c849d558458a2c1015eb117df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masa: 1
-  velocidad: {x: 0, y: 0, z: 0}
-  velocidadMaxima: 5
-  fuerzaMaxima: 10
-  velocidadDeseada: 0
-  aceleracionTeclas: 10
-  fuerzaTeclas: 0
+  mass: 15
+  velocity: {x: 0, y: 0, z: 0}
+  maxVelocity: 30
+  maxForce: 50
+  wantedVelocity: 30
+  inputAcceleration: 0
+  inputForce: 0
   speed: 5
-  altura: 1.5
+  height: 1.5
   keyUp: 119
   keyDown: 115
 --- !u!212 &1187302761
@@ -1057,8 +1057,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cbc3e65c738b14a8b8e37371003dbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masa: 2
-  velocidad: {x: 0, y: 0, z: 0}
+  mass: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1667037986
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class CanvasManager : MonoBehaviour
 {
-    public Text puntajeIzq;
-    public Text puntajeDer;
+    public Text playerOneScore;
+    public Text playerTwoScore;
     public Canvas pauseCanvas;
 
 
@@ -15,10 +13,6 @@ public class CanvasManager : MonoBehaviour
     private void Awake()
     {
         paused = true;
-    }
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

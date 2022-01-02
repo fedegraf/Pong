@@ -4,54 +4,54 @@ using UnityEngine;
 
 public class PaletaScript : CuerpoFisico
 {
-    public float velocidadMaxima;
-    public float fuerzaMaxima;
-    public float velocidadDeseada;
-    public float aceleracionTeclas;
-    public float fuerzaTeclas;
-    Vector3 aceleracionActual;
-    float paredHorizontal = 5f;
+    public float maxVelocity;
+    public float maxForce;
+    public float wantedVelocity;
+    public float inputAcceleration;
+    public float inputForce;
+    Vector3 currentAcceleration;
+    float horizontalWall = 5f;
     [SerializeField] float speed = 4f;
-    public float altura = 1.5f;
+    public float height = 1.5f;
     [SerializeField] KeyCode keyUp;
     [SerializeField] KeyCode keyDown;
-    void Start()
-    {
- 
-    }
 
     // Update is called once per frame
     public void Update()
     {
-        velocidadDeseada = 0f;
+        wantedVelocity = 0f;
         //Vector3 fuerza = Vector3.zero;
 
-        if (Input.GetKey(keyUp))                  //Depende de la tecla que toquemos, la velocidad máxima será hacia arriba o hacia abajo
+        // It depends on the key we play, the maximum velocity will be up or down
+        if (Input.GetKey(keyUp))
         {
-            velocidadDeseada += velocidadMaxima;   
+            wantedVelocity += maxVelocity;   
         }
         if (Input.GetKey(keyDown))
         {
-            velocidadDeseada -= velocidadMaxima;
+            wantedVelocity -= maxVelocity;
         }
 
-        float fuerza = masa * (velocidadDeseada - velocidad.y) / Time.deltaTime;       // Calculamos la fuerza que vamos a hacer acercandonos a la velocidad deseada
-        fuerza = Mathf.Clamp(fuerza, -fuerzaMaxima, fuerzaMaxima);                     // La limitamos determinando una fuerza máxima
-        ApplyForce(Vector3.up * fuerza);                                               // La aplicamos
+        // We calculate the force that we are going to make approaching the desired velocity
+        float force = mass * (wantedVelocity - velocity.y) / Time.deltaTime;
+        // We limit it by determining a maximum force
+        force = Mathf.Clamp(force, -maxForce, maxForce);
+        ApplyForce(Vector3.up * force);
 
-        //transform.position += velocidad * Time.deltaTime + 0.5f * aceleracionActual * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
+        //transform.position += velocity * Time.deltaTime + 0.5f * currentAcceleration * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
 
-        if (transform.position.y > paredHorizontal - altura)                                    
+        if (transform.position.y > horizontalWall - height)                                    
         {
-            transform.position = new Vector3(transform.position.x, paredHorizontal - altura);
-            velocidad.y = 0f;
+            transform.position = new Vector3(transform.position.x, horizontalWall - height);
+            velocity.y = 0f;
         }
-        if(transform.position.y < -paredHorizontal + altura)                                       // Frenamos al chocar contra el techo y contra el suelo
+        // We stop when hitting the ceiling and the ground
+        if(transform.position.y < -horizontalWall + height)
         {
-            transform.position = new Vector3(transform.position.x, -paredHorizontal + altura);
-            velocidad.y = 0f;
+            transform.position = new Vector3(transform.position.x, -horizontalWall + height);
+            velocity.y = 0f;
         }
 
-        PasoDeFisica();
+        PhysicsStep();
     }
 }
