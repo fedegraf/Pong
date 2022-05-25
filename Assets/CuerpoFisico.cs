@@ -17,7 +17,8 @@ public class CuerpoFisico : MonoBehaviour
     public void PhysicsStep()
     {
         velocity += acceleration * Time.deltaTime;
-        transform.position += velocity * Time.deltaTime + 0.5f * acceleration * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
+        // position (time +1) = position(time) + velocity * time + 1/2 * aceleration * time * time
+        transform.position += velocity * Time.deltaTime + 0.5f * acceleration * Time.deltaTime * Time.deltaTime;
         acceleration = Vector3.zero;
     }
 }

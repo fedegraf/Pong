@@ -16,13 +16,12 @@ public class MetodoEuler : MonoBehaviour
     float radio = 0.25f;
     bool unpaused;
     [SerializeField] CanvasManager canvas;
-
     bool gravityOn;
-
     Vector3 gravity = new Vector3(0, -9.8f, 0);
-
     int playerOneScore = 0;
     int playerTwoScore = 0;
+    
+    
     void Start()
     {
         if (!CanvasManager.paused) velocity = new Vector3(speed, speed, 0f);
@@ -70,13 +69,14 @@ public class MetodoEuler : MonoBehaviour
                 // if it's touching, we convert velocity x to negative making it go to the left, if it doesn't, point to the player
                 velocity.x = -Mathf.Abs(velocity.x);
             }
+            // if it's not touching, it's a goal
             else                                          
             {
                 transform.position = Vector3.zero;
                 playerOneScore++;
                 canvas.playerOneScore.text = playerOneScore.ToString();
                 CanvasManager.paused = true;
-                Debug.Log($"Puntaje: Izquierda {playerOneScore} - {playerTwoScore} Derecha");
+                Debug.Log($"Score: Left {playerOneScore} - {playerTwoScore} Right");
             }
         }
         // same for the left wall
@@ -93,39 +93,8 @@ public class MetodoEuler : MonoBehaviour
                 playerTwoScore++;
                 canvas.playerTwoScore.text = playerTwoScore.ToString();
                 CanvasManager.paused = true;
-                Debug.Log($"Puntaje: Izquierda {playerOneScore} - {playerTwoScore} Derecha");
+                Debug.Log($"Score: Left {playerOneScore} - {playerTwoScore} Right");
             }
         }
-
-        if(powerUp != null)
-        {
-            float sumaDeRadios = radio + radioPowerUp;
-            if(Vector2.SqrMagnitude(transform.position - powerUp.position) < sumaDeRadios * sumaDeRadios)
-            {
-                Destroy(powerUp.gameObject);
-                // powerup
-            }
-        }
-
-        /*if (Input.GetKey(KeyCode.D))
-        {
-            if(Input.GetKey(KeyCode.LeftShift)) transform.position += Vector3.right * (speed + 2f) * Time.deltaTime;
-            else transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            if (Input.GetKey(KeyCode.LeftShift)) transform.position -= Vector3.right * (speed + 2f) * Time.deltaTime;
-            else transform.position -= Vector3.right * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            if (Input.GetKey(KeyCode.LeftShift)) transform.position += Vector3.up* (speed + 2f) * Time.deltaTime;
-            else transform.position += Vector3.up * speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            if (Input.GetKey(KeyCode.LeftShift)) transform.position -= Vector3.up * (speed + 2f) * Time.deltaTime;
-            else transform.position -= Vector3.up * speed * Time.deltaTime;
-        }*/
     }
 }

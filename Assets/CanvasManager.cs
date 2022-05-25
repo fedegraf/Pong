@@ -6,16 +6,13 @@ public class CanvasManager : MonoBehaviour
     public Text playerOneScore;
     public Text playerTwoScore;
     public Canvas pauseCanvas;
-
-
     static public bool paused;
 
     private void Awake()
     {
         paused = true;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         if (Input.GetKey(KeyCode.Space))

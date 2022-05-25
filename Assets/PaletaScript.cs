@@ -20,7 +20,6 @@ public class PaletaScript : CuerpoFisico
     public void Update()
     {
         wantedVelocity = 0f;
-        //Vector3 fuerza = Vector3.zero;
 
         // It depends on the key we play, the maximum velocity will be up or down
         if (Input.GetKey(keyUp))
@@ -37,8 +36,6 @@ public class PaletaScript : CuerpoFisico
         // We limit it by determining a maximum force
         force = Mathf.Clamp(force, -maxForce, maxForce);
         ApplyForce(Vector3.up * force);
-
-        //transform.position += velocity * Time.deltaTime + 0.5f * currentAcceleration * Time.deltaTime * Time.deltaTime; //x(t+1) = x(t) + v * t + 1/2 * a * t * t
 
         if (transform.position.y > horizontalWall - height)                                    
         {
